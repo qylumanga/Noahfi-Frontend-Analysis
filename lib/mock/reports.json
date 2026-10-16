@@ -1,0 +1,59 @@
+[
+  {
+    "id": "cl_rpt_priya",
+    "caseId": "cl_case_4217",
+    "reference": "NF-2026-004217",
+    "score": 712,
+    "band": "Good",
+    "confidence": 86,
+    "summary": "Canadian-equivalent profile for Priya Raman, prepared from a CIBIL report of 782, six months of HDFC statements, and a matched identity check.",
+    "feedback": "Your home-country history supports a Canadian-equivalent profile of 712 (Good). Because you do not yet have Canadian credit history, early limits at a bank may be modest until local accounts have a few months of activity.",
+    "visibleToPartner": true,
+    "factors": [
+      {
+        "key": "identity",
+        "label": "Identity confidence",
+        "score": 5,
+        "max": 5,
+        "justification": "Passport data page matches the KYC result."
+      },
+      {
+        "key": "documents",
+        "label": "Document validity",
+        "score": 5,
+        "max": 5,
+        "justification": "All required pages are present and readable."
+      },
+      {
+        "key": "banking",
+        "label": "Banking history quality",
+        "score": 4,
+        "max": 5,
+        "justification": "Six months of salary credits are regular and traceable."
+      },
+      {
+        "key": "credit",
+        "label": "Credit history quality",
+        "score": 4,
+        "max": 5,
+        "justification": "CIBIL history is 9 years with no delinquencies."
+      },
+      {
+        "key": "fraud",
+        "label": "Fraud risk flags",
+        "score": 0,
+        "max": 5,
+        "justification": "None."
+      },
+      {
+        "key": "consistency",
+        "label": "Consistency checks",
+        "score": 5,
+        "max": 5,
+        "justification": "Name transliteration is consistent across the file."
+      }
+    ],
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  }
+]

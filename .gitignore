@@ -1,4 +1,10 @@
-node_modules/
-.next/
-.pnpm-store/
+node_modules
+.next
+.env*
+!.env.example
+*.tsbuildinfo
+.DS_Store
+next-env.d.ts
+.pnpm-store
 *.local
+NOAHFI_CURSOR_PROMPT.md

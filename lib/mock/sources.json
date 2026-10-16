@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cl_src_priya",
+    "caseId": "cl_case_4217",
+    "bureau": "CIBIL",
+    "bureauScore": 782,
+    "yearsOfHistory": 9,
+    "delinquencies": 0,
+    "utilizationPct": 22,
+    "notes": "Software engineer relocating from Chennai to Toronto. No delinquencies.",
+    "createdAt": "2026-09-28T14:00:00.000Z",
+    "updatedAt": "2026-09-28T14:00:00.000Z"
+  },
+  {
+    "id": "cl_src_amina",
+    "caseId": "cl_case_4198",
+    "bureau": "CRC",
+    "bureauScore": 710,
+    "yearsOfHistory": 6,
+    "delinquencies": 0,
+    "utilizationPct": 31,
+    "notes": "Regular salary credits from a Lagos employer.",
+    "createdAt": "2026-10-10T09:00:00.000Z",
+    "updatedAt": "2026-10-10T09:00:00.000Z"
+  },
+  {
+    "id": "cl_src_fatima",
+    "caseId": "cl_case_4066",
+    "bureau": "eCIB",
+    "bureauScore": 640,
+    "yearsOfHistory": 4,
+    "delinquencies": 1,
+    "utilizationPct": 48,
+    "notes": "One historical late payment. Name mismatch on the latest statement.",
+    "createdAt": "2026-10-14T11:00:00.000Z",
+    "updatedAt": "2026-10-14T11:00:00.000Z"
+  },
+  {
+    "id": "cl_src_oliver",
+    "caseId": "cl_case_4088",
+    "bureau": "Experian",
+    "bureauScore": 910,
+    "yearsOfHistory": 12,
+    "delinquencies": 0,
+    "utilizationPct": 14,
+    "notes": "Long UK file with low utilisation.",
+    "createdAt": "2026-10-10T09:00:00.000Z",
+    "updatedAt": "2026-10-10T09:00:00.000Z"
+  }
+]

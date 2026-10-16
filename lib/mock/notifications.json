@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cl_nt_priya",
+    "userId": "cl_usr_priya",
+    "caseId": "cl_case_4217",
+    "type": "final_report_ready",
+    "title": "Final report ready",
+    "body": "Your Canadian-equivalent profile for NF-2026-004217 is ready to download.",
+    "href": "/cases/cl_case_4217",
+    "readAt": null,
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_nt_amina",
+    "userId": "cl_usr_amina",
+    "caseId": "cl_case_4198",
+    "type": "case_under_review",
+    "title": "Case under review",
+    "body": "An analyst is reviewing NF-2026-004198.",
+    "href": "/cases/cl_case_4198",
+    "readAt": null,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  }
+]

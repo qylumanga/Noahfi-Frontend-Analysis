@@ -1,0 +1,102 @@
+[
+  {
+    "id": "cl_id_priya",
+    "caseId": "cl_case_4217",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.98,
+    "checkedAt": "2026-09-28T15:22:00.000Z",
+    "createdAt": "2026-09-28T15:22:00.000Z",
+    "updatedAt": "2026-09-28T15:22:00.000Z"
+  },
+  {
+    "id": "cl_id_amina",
+    "caseId": "cl_case_4198",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.95,
+    "checkedAt": "2026-10-10T09:00:00.000Z",
+    "createdAt": "2026-10-10T09:00:00.000Z",
+    "updatedAt": "2026-10-10T09:00:00.000Z"
+  },
+  {
+    "id": "cl_id_luis",
+    "caseId": "cl_case_4176",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.97,
+    "checkedAt": "2026-10-10T09:00:00.000Z",
+    "createdAt": "2026-10-10T09:00:00.000Z",
+    "updatedAt": "2026-10-10T09:00:00.000Z"
+  },
+  {
+    "id": "cl_id_chinedu",
+    "caseId": "cl_case_4132",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.91,
+    "checkedAt": "2026-10-16T08:00:00.000Z",
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_id_maria",
+    "caseId": "cl_case_4110",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.96,
+    "checkedAt": "2026-10-15T15:00:00.000Z",
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_id_oliver",
+    "caseId": "cl_case_4088",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.99,
+    "checkedAt": "2026-10-10T09:00:00.000Z",
+    "createdAt": "2026-10-10T09:00:00.000Z",
+    "updatedAt": "2026-10-10T09:00:00.000Z"
+  },
+  {
+    "id": "cl_id_fatima",
+    "caseId": "cl_case_4066",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.84,
+    "checkedAt": "2026-10-14T11:00:00.000Z",
+    "createdAt": "2026-10-14T11:00:00.000Z",
+    "updatedAt": "2026-10-14T11:00:00.000Z"
+  },
+  {
+    "id": "cl_id_rafael",
+    "caseId": "cl_case_4044",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.9,
+    "checkedAt": "2026-10-14T11:00:00.000Z",
+    "createdAt": "2026-10-14T11:00:00.000Z",
+    "updatedAt": "2026-10-14T11:00:00.000Z"
+  },
+  {
+    "id": "cl_id_amara",
+    "caseId": "cl_case_3976",
+    "status": "failed",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.42,
+    "checkedAt": "2026-10-10T09:00:00.000Z",
+    "createdAt": "2026-10-10T09:00:00.000Z",
+    "updatedAt": "2026-10-10T09:00:00.000Z"
+  },
+  {
+    "id": "cl_id_juan",
+    "caseId": "cl_case_3932",
+    "status": "matched",
+    "provider": "NOAHFI KYC (Sumsub-style placeholder)",
+    "matchScore": 0.93,
+    "checkedAt": "2026-10-16T08:00:00.000Z",
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  }
+]

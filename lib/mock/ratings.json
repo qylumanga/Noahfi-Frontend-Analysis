@@ -1,0 +1,71 @@
+[
+  {
+    "id": "cl_rate_priya",
+    "caseId": "cl_case_4217",
+    "identityConfidence": 5,
+    "documentValidity": 5,
+    "bankingHistory": 4,
+    "creditHistory": 4,
+    "fraudRisk": 0,
+    "consistency": 5,
+    "identityNote": "Passport data page matches the KYC result.",
+    "documentNote": "Passport, CIBIL report, and bank statements are complete.",
+    "bankingNote": "Six months of salary credits are regular and traceable. Two large one-off transfers are explained by the relocation deposit letter.",
+    "creditNote": "CIBIL history is 9 years with no delinquencies. Utilisation is around 22%.",
+    "fraudNote": "None.",
+    "consistencyNote": "Name transliteration is consistent across the credit report and bank statements.",
+    "computedScore": 712,
+    "finalScore": 712,
+    "confidence": 86,
+    "band": "Good",
+    "recommendation": "approve",
+    "rationale": "Recommend 712 with high confidence.",
+    "qaStatus": "approved",
+    "factors": [
+      {
+        "key": "identity",
+        "label": "Identity confidence",
+        "score": 5,
+        "max": 5,
+        "justification": "Passport data page matches the KYC result."
+      },
+      {
+        "key": "documents",
+        "label": "Document validity",
+        "score": 5,
+        "max": 5,
+        "justification": "All required pages are present and readable."
+      },
+      {
+        "key": "banking",
+        "label": "Banking history quality",
+        "score": 4,
+        "max": 5,
+        "justification": "Six months of salary credits are regular and traceable."
+      },
+      {
+        "key": "credit",
+        "label": "Credit history quality",
+        "score": 4,
+        "max": 5,
+        "justification": "CIBIL history is 9 years with no delinquencies."
+      },
+      {
+        "key": "fraud",
+        "label": "Fraud risk flags",
+        "score": 0,
+        "max": 5,
+        "justification": "None."
+      },
+      {
+        "key": "consistency",
+        "label": "Consistency checks",
+        "score": 5,
+        "max": 5,
+        "justification": "Name transliteration is consistent across the file."
+      }
+    ],
+    "createdAt": "2026-09-29T18:00:00.000Z",
+    "updatedAt": "2026-09-29T18:00:00.000Z"
+  }
+]

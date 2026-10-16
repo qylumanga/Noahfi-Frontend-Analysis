@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cl_flag_fatima",
+    "caseId": "cl_case_4066",
+    "severity": "warning",
+    "title": "Name mismatch between bank statement and passport",
+    "detail": "The statement shows a middle name that is not on the passport data page.",
+    "resolved": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_flag_amara",
+    "caseId": "cl_case_3976",
+    "severity": "critical",
+    "title": "Report older than 30 days",
+    "detail": "The home-country credit report was issued more than 30 days before submission.",
+    "resolved": false,
+    "createdAt": "2026-10-12T10:00:00.000Z",
+    "updatedAt": "2026-10-12T10:00:00.000Z"
+  },
+  {
+    "id": "cl_flag_rafael",
+    "caseId": "cl_case_4044",
+    "severity": "warning",
+    "title": "Large unexplained transfer",
+    "detail": "A single transfer is more than three times the usual monthly income.",
+    "resolved": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  }
+]

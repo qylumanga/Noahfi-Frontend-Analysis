@@ -1,0 +1,197 @@
+{
+  "id": "cl_metrics",
+  "avgTurnaroundHours": 31,
+  "slaCompliancePct": 96,
+  "openCases": 11,
+  "series": [
+    {
+      "date": "2026-09-17",
+      "opened": 12,
+      "closed": 12
+    },
+    {
+      "date": "2026-09-18",
+      "opened": 9,
+      "closed": 8
+    },
+    {
+      "date": "2026-09-19",
+      "opened": 14,
+      "closed": 12
+    },
+    {
+      "date": "2026-09-20",
+      "opened": 11,
+      "closed": 11
+    },
+    {
+      "date": "2026-09-21",
+      "opened": 8,
+      "closed": 7
+    },
+    {
+      "date": "2026-09-22",
+      "opened": 15,
+      "closed": 13
+    },
+    {
+      "date": "2026-09-23",
+      "opened": 13,
+      "closed": 13
+    },
+    {
+      "date": "2026-09-24",
+      "opened": 10,
+      "closed": 9
+    },
+    {
+      "date": "2026-09-25",
+      "opened": 16,
+      "closed": 14
+    },
+    {
+      "date": "2026-09-26",
+      "opened": 12,
+      "closed": 12
+    },
+    {
+      "date": "2026-09-27",
+      "opened": 9,
+      "closed": 8
+    },
+    {
+      "date": "2026-09-28",
+      "opened": 11,
+      "closed": 9
+    },
+    {
+      "date": "2026-09-29",
+      "opened": 18,
+      "closed": 18
+    },
+    {
+      "date": "2026-09-30",
+      "opened": 14,
+      "closed": 13
+    },
+    {
+      "date": "2026-10-01",
+      "opened": 7,
+      "closed": 5
+    },
+    {
+      "date": "2026-10-02",
+      "opened": 13,
+      "closed": 13
+    },
+    {
+      "date": "2026-10-03",
+      "opened": 15,
+      "closed": 14
+    },
+    {
+      "date": "2026-10-04",
+      "opened": 12,
+      "closed": 10
+    },
+    {
+      "date": "2026-10-05",
+      "opened": 10,
+      "closed": 10
+    },
+    {
+      "date": "2026-10-06",
+      "opened": 17,
+      "closed": 16
+    },
+    {
+      "date": "2026-10-07",
+      "opened": 14,
+      "closed": 12
+    },
+    {
+      "date": "2026-10-08",
+      "opened": 11,
+      "closed": 11
+    },
+    {
+      "date": "2026-10-09",
+      "opened": 9,
+      "closed": 8
+    },
+    {
+      "date": "2026-10-10",
+      "opened": 16,
+      "closed": 14
+    },
+    {
+      "date": "2026-10-11",
+      "opened": 13,
+      "closed": 13
+    },
+    {
+      "date": "2026-10-12",
+      "opened": 12,
+      "closed": 11
+    },
+    {
+      "date": "2026-10-13",
+      "opened": 8,
+      "closed": 6
+    },
+    {
+      "date": "2026-10-14",
+      "opened": 15,
+      "closed": 15
+    },
+    {
+      "date": "2026-10-15",
+      "opened": 11,
+      "closed": 10
+    },
+    {
+      "date": "2026-10-16",
+      "opened": 14,
+      "closed": 12
+    }
+  ],
+  "fraudAlerts": 3,
+  "integrationHealth": [
+    {
+      "name": "KYC",
+      "status": "operational"
+    },
+    {
+      "name": "Payments",
+      "status": "operational"
+    },
+    {
+      "name": "Email",
+      "status": "operational"
+    },
+    {
+      "name": "Storage",
+      "status": "operational"
+    },
+    {
+      "name": "Ledger",
+      "status": "operational"
+    }
+  ],
+  "analysts": [
+    {
+      "id": "cl_usr_mei",
+      "name": "Mei Tanaka",
+      "open": 3,
+      "closed": 18
+    },
+    {
+      "id": "cl_usr_samuel",
+      "name": "Samuel Adeyemi",
+      "open": 2,
+      "closed": 15
+    }
+  ],
+  "createdAt": "2026-10-16T12:00:00.000Z",
+  "updatedAt": "2026-10-16T12:00:00.000Z"
+}

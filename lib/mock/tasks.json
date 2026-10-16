@@ -1,0 +1,242 @@
+[
+  {
+    "id": "cl_task_cl_case_4217_0",
+    "caseId": "cl_case_4217",
+    "label": "Confirm identity document",
+    "done": true,
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4217_1",
+    "caseId": "cl_case_4217",
+    "label": "Check credit report date",
+    "done": true,
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4217_2",
+    "caseId": "cl_case_4217",
+    "label": "Review banking history",
+    "done": true,
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4217_3",
+    "caseId": "cl_case_4217",
+    "label": "Record factor scores",
+    "done": true,
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4217_4",
+    "caseId": "cl_case_4217",
+    "label": "Write customer feedback",
+    "done": true,
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4198_0",
+    "caseId": "cl_case_4198",
+    "label": "Confirm identity document",
+    "done": true,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4198_1",
+    "caseId": "cl_case_4198",
+    "label": "Check credit report date",
+    "done": true,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4198_2",
+    "caseId": "cl_case_4198",
+    "label": "Review banking history",
+    "done": false,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4198_3",
+    "caseId": "cl_case_4198",
+    "label": "Record factor scores",
+    "done": false,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4198_4",
+    "caseId": "cl_case_4198",
+    "label": "Write customer feedback",
+    "done": false,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4176_0",
+    "caseId": "cl_case_4176",
+    "label": "Confirm identity document",
+    "done": true,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4176_1",
+    "caseId": "cl_case_4176",
+    "label": "Check credit report date",
+    "done": true,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4176_2",
+    "caseId": "cl_case_4176",
+    "label": "Review banking history",
+    "done": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4176_3",
+    "caseId": "cl_case_4176",
+    "label": "Record factor scores",
+    "done": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4176_4",
+    "caseId": "cl_case_4176",
+    "label": "Write customer feedback",
+    "done": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4088_0",
+    "caseId": "cl_case_4088",
+    "label": "Confirm identity document",
+    "done": true,
+    "createdAt": "2026-10-11T18:00:00.000Z",
+    "updatedAt": "2026-10-11T18:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4088_1",
+    "caseId": "cl_case_4088",
+    "label": "Check credit report date",
+    "done": true,
+    "createdAt": "2026-10-11T18:00:00.000Z",
+    "updatedAt": "2026-10-11T18:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4088_2",
+    "caseId": "cl_case_4088",
+    "label": "Review banking history",
+    "done": true,
+    "createdAt": "2026-10-11T18:00:00.000Z",
+    "updatedAt": "2026-10-11T18:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4088_3",
+    "caseId": "cl_case_4088",
+    "label": "Record factor scores",
+    "done": true,
+    "createdAt": "2026-10-11T18:00:00.000Z",
+    "updatedAt": "2026-10-11T18:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4088_4",
+    "caseId": "cl_case_4088",
+    "label": "Write customer feedback",
+    "done": true,
+    "createdAt": "2026-10-11T18:00:00.000Z",
+    "updatedAt": "2026-10-11T18:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4066_0",
+    "caseId": "cl_case_4066",
+    "label": "Confirm identity document",
+    "done": true,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4066_1",
+    "caseId": "cl_case_4066",
+    "label": "Check credit report date",
+    "done": true,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4066_2",
+    "caseId": "cl_case_4066",
+    "label": "Review banking history",
+    "done": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4066_3",
+    "caseId": "cl_case_4066",
+    "label": "Record factor scores",
+    "done": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_4066_4",
+    "caseId": "cl_case_4066",
+    "label": "Write customer feedback",
+    "done": false,
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_3932_0",
+    "caseId": "cl_case_3932",
+    "label": "Confirm identity document",
+    "done": true,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_3932_1",
+    "caseId": "cl_case_3932",
+    "label": "Check credit report date",
+    "done": true,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_3932_2",
+    "caseId": "cl_case_3932",
+    "label": "Review banking history",
+    "done": false,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_3932_3",
+    "caseId": "cl_case_3932",
+    "label": "Record factor scores",
+    "done": false,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_task_cl_case_3932_4",
+    "caseId": "cl_case_3932",
+    "label": "Write customer feedback",
+    "done": false,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  }
+]

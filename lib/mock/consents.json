@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cl_con_priya",
+    "caseId": "cl_case_4217",
+    "userId": "cl_usr_priya",
+    "partnerId": "cl_prt_maple",
+    "scope": "report",
+    "granted": true,
+    "grantedAt": "2026-09-30T10:00:00.000Z",
+    "expiresAt": "2027-01-15T00:00:00.000Z",
+    "createdAt": "2026-09-30T10:00:00.000Z",
+    "updatedAt": "2026-09-30T10:00:00.000Z"
+  },
+  {
+    "id": "cl_con_amina",
+    "caseId": "cl_case_4198",
+    "userId": "cl_usr_amina",
+    "partnerId": "cl_prt_maple",
+    "scope": "none",
+    "granted": false,
+    "grantedAt": null,
+    "expiresAt": null,
+    "createdAt": "2026-10-10T09:00:00.000Z",
+    "updatedAt": "2026-10-10T09:00:00.000Z"
+  },
+  {
+    "id": "cl_con_oliver",
+    "caseId": "cl_case_4088",
+    "userId": "cl_usr_oliver",
+    "partnerId": "cl_prt_northern",
+    "scope": "report_and_documents",
+    "granted": true,
+    "grantedAt": "2026-10-11T18:10:00.000Z",
+    "expiresAt": "2027-02-01T00:00:00.000Z",
+    "createdAt": "2026-10-11T18:10:00.000Z",
+    "updatedAt": "2026-10-11T18:10:00.000Z"
+  },
+  {
+    "id": "cl_con_juan",
+    "caseId": "cl_case_3932",
+    "userId": "cl_usr_juan",
+    "partnerId": "cl_prt_maple",
+    "scope": "none",
+    "granted": false,
+    "grantedAt": null,
+    "expiresAt": null,
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  }
+]

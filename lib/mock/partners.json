@@ -1,0 +1,20 @@
+[
+  {
+    "id": "cl_prt_maple",
+    "name": "Maple Harbour Bank",
+    "shortName": "Maple Harbour",
+    "city": "Toronto",
+    "status": "active",
+    "createdAt": "2026-04-01T15:00:00.000Z",
+    "updatedAt": "2026-04-01T15:00:00.000Z"
+  },
+  {
+    "id": "cl_prt_northern",
+    "name": "Northern Crest Credit Union",
+    "shortName": "Northern Crest",
+    "city": "Vancouver",
+    "status": "active",
+    "createdAt": "2026-05-01T15:00:00.000Z",
+    "updatedAt": "2026-05-01T15:00:00.000Z"
+  }
+]

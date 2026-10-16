@@ -1,0 +1,67 @@
+[
+  {
+    "id": "cl_aud_1",
+    "actorId": "cl_usr_mei",
+    "actorName": "Mei Tanaka",
+    "actorRole": "analyst",
+    "action": "rating.submitted",
+    "entityType": "case",
+    "entityId": "cl_case_4217",
+    "detail": "Recommended 712 (Good).",
+    "at": "2026-09-29T18:05:00.000Z",
+    "createdAt": "2026-09-29T18:05:00.000Z",
+    "updatedAt": "2026-09-29T18:05:00.000Z"
+  },
+  {
+    "id": "cl_aud_2",
+    "actorId": "cl_usr_isabelle",
+    "actorName": "Isabelle Fontaine",
+    "actorRole": "reviewer",
+    "action": "qa.approved",
+    "entityType": "case",
+    "entityId": "cl_case_4217",
+    "detail": "Approved the assessment.",
+    "at": "2026-09-30T08:30:00.000Z",
+    "createdAt": "2026-09-30T08:30:00.000Z",
+    "updatedAt": "2026-09-30T08:30:00.000Z"
+  },
+  {
+    "id": "cl_aud_3",
+    "actorId": "cl_usr_daniel",
+    "actorName": "Daniel Whitfield",
+    "actorRole": "partner",
+    "action": "evidence.uploaded",
+    "entityType": "document",
+    "entityId": "cl_doc_maple_ev",
+    "detail": "Uploaded a relationship letter for NF-2026-004217.",
+    "at": "2026-09-29T13:00:00.000Z",
+    "createdAt": "2026-09-29T13:00:00.000Z",
+    "updatedAt": "2026-09-29T13:00:00.000Z"
+  },
+  {
+    "id": "cl_aud_4",
+    "actorId": "cl_usr_samuel",
+    "actorName": "Samuel Adeyemi",
+    "actorRole": "analyst",
+    "action": "info.requested",
+    "entityType": "case",
+    "entityId": "cl_case_4066",
+    "detail": "Requested a statement matching the passport name.",
+    "at": "2026-10-15T16:00:00.000Z",
+    "createdAt": "2026-10-15T16:00:00.000Z",
+    "updatedAt": "2026-10-15T16:00:00.000Z"
+  },
+  {
+    "id": "cl_aud_5",
+    "actorId": "cl_usr_grace",
+    "actorName": "Grace Mwale",
+    "actorRole": "compliance",
+    "action": "audit.exported",
+    "entityType": "audit",
+    "entityId": "cl_aud_5",
+    "detail": "Viewed the audit log.",
+    "at": "2026-10-16T09:00:00.000Z",
+    "createdAt": "2026-10-16T09:00:00.000Z",
+    "updatedAt": "2026-10-16T09:00:00.000Z"
+  }
+]

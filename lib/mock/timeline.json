@@ -1,0 +1,123 @@
+[
+  {
+    "id": "cl_tl_1",
+    "caseId": "cl_case_4217",
+    "status": "account_verified",
+    "title": "Account verified",
+    "detail": "Email confirmed.",
+    "actorName": "Priya Raman",
+    "at": "2026-09-28T14:20:00.000Z",
+    "createdAt": "2026-09-28T14:20:00.000Z",
+    "updatedAt": "2026-09-28T14:20:00.000Z"
+  },
+  {
+    "id": "cl_tl_2",
+    "caseId": "cl_case_4217",
+    "status": "documents_uploaded",
+    "title": "Documents uploaded",
+    "detail": "Passport, CIBIL report, and bank statements received.",
+    "actorName": "Priya Raman",
+    "at": "2026-09-28T15:10:00.000Z",
+    "createdAt": "2026-09-28T15:10:00.000Z",
+    "updatedAt": "2026-09-28T15:10:00.000Z"
+  },
+  {
+    "id": "cl_tl_3",
+    "caseId": "cl_case_4217",
+    "status": "identity_verified",
+    "title": "Identity verified",
+    "detail": "KYC check matched.",
+    "actorName": "NOAHFI",
+    "at": "2026-09-28T15:22:00.000Z",
+    "createdAt": "2026-09-28T15:22:00.000Z",
+    "updatedAt": "2026-09-28T15:22:00.000Z"
+  },
+  {
+    "id": "cl_tl_4",
+    "caseId": "cl_case_4217",
+    "status": "payment_received",
+    "title": "Payment received",
+    "detail": "USD 100 plus GST received.",
+    "actorName": "Priya Raman",
+    "at": "2026-09-28T16:00:00.000Z",
+    "createdAt": "2026-09-28T16:00:00.000Z",
+    "updatedAt": "2026-09-28T16:00:00.000Z"
+  },
+  {
+    "id": "cl_tl_5",
+    "caseId": "cl_case_4217",
+    "status": "under_review",
+    "title": "Under review",
+    "detail": "Assigned to Mei Tanaka.",
+    "actorName": "Mei Tanaka",
+    "at": "2026-09-29T10:00:00.000Z",
+    "createdAt": "2026-09-29T10:00:00.000Z",
+    "updatedAt": "2026-09-29T10:00:00.000Z"
+  },
+  {
+    "id": "cl_tl_6",
+    "caseId": "cl_case_4217",
+    "status": "quality_check",
+    "title": "Quality check",
+    "detail": "Sent to Isabelle Fontaine.",
+    "actorName": "Mei Tanaka",
+    "at": "2026-09-29T18:10:00.000Z",
+    "createdAt": "2026-09-29T18:10:00.000Z",
+    "updatedAt": "2026-09-29T18:10:00.000Z"
+  },
+  {
+    "id": "cl_tl_7",
+    "caseId": "cl_case_4217",
+    "status": "finalized",
+    "title": "Finalized",
+    "detail": "Reviewer approved 712 (Good).",
+    "actorName": "Isabelle Fontaine",
+    "at": "2026-09-30T08:30:00.000Z",
+    "createdAt": "2026-09-30T08:30:00.000Z",
+    "updatedAt": "2026-09-30T08:30:00.000Z"
+  },
+  {
+    "id": "cl_tl_8",
+    "caseId": "cl_case_4217",
+    "status": "ready_to_download",
+    "title": "Ready to download",
+    "detail": "Report sent to Priya Raman.",
+    "actorName": "Isabelle Fontaine",
+    "at": "2026-09-30T09:40:00.000Z",
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_tl_9",
+    "caseId": "cl_case_4198",
+    "status": "under_review",
+    "title": "Under review",
+    "detail": "Analyst review started.",
+    "actorName": "Mei Tanaka",
+    "at": "2026-10-16T08:00:00.000Z",
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  },
+  {
+    "id": "cl_tl_10",
+    "caseId": "cl_case_4066",
+    "status": "info_requested",
+    "title": "Info requested",
+    "detail": "Asked for a statement that matches the passport name.",
+    "actorName": "Samuel Adeyemi",
+    "at": "2026-10-15T15:00:00.000Z",
+    "createdAt": "2026-10-15T15:00:00.000Z",
+    "updatedAt": "2026-10-15T15:00:00.000Z"
+  },
+  {
+    "id": "cl_tl_11",
+    "caseId": "cl_case_3932",
+    "status": "under_review",
+    "title": "Under review",
+    "detail": "Inside the 48-hour window.",
+    "actorName": "Mei Tanaka",
+    "at": "2026-10-16T08:00:00.000Z",
+    "createdAt": "2026-10-16T08:00:00.000Z",
+    "updatedAt": "2026-10-16T08:00:00.000Z"
+  }
+]

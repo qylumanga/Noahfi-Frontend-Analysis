@@ -1,0 +1,62 @@
+[
+  {
+    "id": "cl_note_1",
+    "caseId": "cl_case_4217",
+    "authorId": "cl_usr_mei",
+    "authorName": "Mei Tanaka",
+    "authorRole": "analyst",
+    "body": "Passport data page matches the KYC result. Name transliteration is consistent across the credit report and bank statements.",
+    "createdAt": "2026-09-29T11:00:00.000Z",
+    "updatedAt": "2026-09-29T11:00:00.000Z"
+  },
+  {
+    "id": "cl_note_2",
+    "caseId": "cl_case_4217",
+    "authorId": "cl_usr_mei",
+    "authorName": "Mei Tanaka",
+    "authorRole": "analyst",
+    "body": "Six months of salary credits are regular and traceable. Two large one-off transfers are explained by the relocation deposit letter.",
+    "createdAt": "2026-09-29T15:10:00.000Z",
+    "updatedAt": "2026-09-29T15:10:00.000Z"
+  },
+  {
+    "id": "cl_note_3",
+    "caseId": "cl_case_4217",
+    "authorId": "cl_usr_mei",
+    "authorName": "Mei Tanaka",
+    "authorRole": "analyst",
+    "body": "CIBIL history is 9 years with no delinquencies. Utilisation is around 22%. Recommend 712 with high confidence.",
+    "createdAt": "2026-09-29T18:05:00.000Z",
+    "updatedAt": "2026-09-29T18:05:00.000Z"
+  },
+  {
+    "id": "cl_note_4",
+    "caseId": "cl_case_4217",
+    "authorId": "cl_usr_isabelle",
+    "authorName": "Isabelle Fontaine",
+    "authorRole": "reviewer",
+    "body": "Approved. Add a plain-language line to the feedback about how limited Canadian history affects early limits.",
+    "createdAt": "2026-09-30T08:32:00.000Z",
+    "updatedAt": "2026-09-30T08:32:00.000Z"
+  },
+  {
+    "id": "cl_note_5",
+    "caseId": "cl_case_4066",
+    "authorId": "cl_usr_samuel",
+    "authorName": "Samuel Adeyemi",
+    "authorRole": "analyst",
+    "body": "Name mismatch between bank statement and passport. Asked the customer for a corrected statement.",
+    "createdAt": "2026-10-15T16:00:00.000Z",
+    "updatedAt": "2026-10-15T16:00:00.000Z"
+  },
+  {
+    "id": "cl_note_6",
+    "caseId": "cl_case_3976",
+    "authorId": "cl_usr_samuel",
+    "authorName": "Samuel Adeyemi",
+    "authorRole": "analyst",
+    "body": "Report older than 30 days and the identity check did not match. Declined.",
+    "createdAt": "2026-10-12T10:00:00.000Z",
+    "updatedAt": "2026-10-12T10:00:00.000Z"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cl_em_priya",
+    "to": "priya.raman@example.com",
+    "template": "report_ready",
+    "subject": "Your NOAHFI report is ready",
+    "props": {
+      "name": "Priya Raman",
+      "reference": "NF-2026-004217",
+      "href": "/cases/cl_case_4217"
+    },
+    "href": "/cases/cl_case_4217",
+    "createdAt": "2026-09-30T09:40:00.000Z",
+    "updatedAt": "2026-09-30T09:40:00.000Z"
+  },
+  {
+    "id": "cl_em_otp_sample",
+    "to": "priya.raman@example.com",
+    "template": "otp",
+    "subject": "Your NOAHFI verification code",
+    "props": {
+      "name": "Priya Raman",
+      "code": "123456",
+      "href": "/verify-email"
+    },
+    "href": "/verify-email",
+    "createdAt": "2026-09-28T14:00:00.000Z",
+    "updatedAt": "2026-09-28T14:00:00.000Z"
+  }
+]
