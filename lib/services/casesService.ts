@@ -8,6 +8,7 @@ import type {
   Note,
   Payment,
   Profile,
+  QaReview,
   RatingAssessment,
   RedFlag,
   Report,
@@ -65,6 +66,16 @@ export async function advanceCase(id: string): Promise<Case> {
   const data = await api<{ case: Case; timeline?: TimelineEvent }>(`/api/cases/${id}`, {
     method: "PATCH",
     body: JSON.stringify({ base, advance: true }),
+  });
+  await applyEffects(data);
+  return data.case;
+}
+
+export async function jumpCase(id: string, status: Case["status"]): Promise<Case> {
+  const base = await getCase(id);
+  const data = await api<Effects & { case: Case }>(`/api/cases/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ base, jumpTo: status }),
   });
   await applyEffects(data);
   return data.case;
@@ -134,6 +145,102 @@ export async function addNote(caseId: string, input: Pick<Note, "authorId" | "au
   return note;
 }
 
+const CHECKLIST = [
+  "Confirm identity document",
+  "Check credit report date",
+  "Review banking history",
+  "Record factor scores",
+  "Write customer feedback",
+];
+
+function ensureChecklist(caseId: string, tasks: Task[]): Task[] {
+  if (tasks.length > 0) return tasks;
+  const at = new Date().toISOString();
+  return CHECKLIST.map((label, index) => {
+    const task: Task = { id: `cl_task_${caseId}_${index}`, caseId, label, done: false, createdAt: at, updatedAt: at };
+    upsert("tasks", task);
+    return task;
+  });
+}
+
+function mentioned(flags: RedFlag[], needle: string): boolean {
+  return flags.some((flag) => `${flag.title} ${flag.detail}`.toLowerCase().includes(needle));
+}
+
+function autoFlag(caseId: string, key: string, severity: RedFlag["severity"], title: string, detail: string): RedFlag {
+  const at = new Date().toISOString();
+  return { id: `cl_flag_auto_${caseId}_${key}`, caseId, severity, title, detail, resolved: false, createdAt: at, updatedAt: at };
+}
+
+function withAutomaticFlags(input: {
+  caseId: string;
+  flags: RedFlag[];
+  identity: IdentityVerification | null;
+  documents: Document[];
+  applicant: User | null;
+  profile: Profile | null;
+}): RedFlag[] {
+  const next = [...input.flags];
+  if (input.identity?.status === "failed" && !mentioned(next, "kyc") && !mentioned(next, "identity check")) {
+    next.push(autoFlag(input.caseId, "kyc", "critical", "Failed KYC", "The identity check did not match the documents on file."));
+  }
+  const report = input.documents.find((doc) => doc.type === "credit_report");
+  if (report && Date.now() - new Date(report.createdAt).getTime() > 30 * 24 * 3600_000 && !mentioned(next, "30") && !mentioned(next, "older")) {
+    next.push(autoFlag(input.caseId, "age", "warning", "Report older than 30 days", "The foreign credit report on file is more than 30 days old."));
+  }
+  const profileName = input.profile?.fullName.trim().toLowerCase().replace(/\s+/g, " ") ?? "";
+  const signupName = input.applicant?.name.trim().toLowerCase().replace(/\s+/g, " ") ?? "";
+  if (profileName && signupName && profileName !== signupName && !mentioned(next, "name")) {
+    next.push(autoFlag(input.caseId, "name", "warning", "Name mismatch", `Signup name “${input.applicant?.name}” does not match the profile name “${input.profile?.fullName}”.`));
+  }
+  return next;
+}
+
+function latestForCase<T extends { caseId: string; updatedAt: string }>(items: T[], caseId: string): T | null {
+  return items.filter((item) => item.caseId === caseId).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0] ?? null;
+}
+
+function stamp(caseId: string, key: string, status: Case["status"], title: string, detail: string, at: string, actorName: string): TimelineEvent {
+  return { id: `cl_tl_${caseId}_${key}`, caseId, status, title, detail, actorName, at, createdAt: at, updatedAt: at };
+}
+
+function withChronicle(input: {
+  kase: Case;
+  events: TimelineEvent[];
+  documents: Document[];
+  identity: IdentityVerification | null;
+  payment: Payment | null;
+  actorName: string;
+}): TimelineEvent[] {
+  const out = [...input.events];
+  const has = (part: string) => out.some((event) => event.title.toLowerCase().includes(part));
+  const { kase } = input;
+  if (kase.status !== "draft" && !has("account")) {
+    out.push(stamp(kase.id, "signup", "account_verified", "Account verified", "Signup confirmed the applicant profile.", kase.createdAt, input.actorName));
+  }
+  const firstDoc = [...input.documents].sort((a, b) => a.createdAt.localeCompare(b.createdAt))[0];
+  if (firstDoc && !has("upload") && !has("document")) {
+    out.push(stamp(kase.id, "upload", "documents_uploaded", "Documents uploaded", `${firstDoc.fileName} is on file.`, firstDoc.createdAt, input.actorName));
+  }
+  if (input.identity?.status === "matched" && input.identity.checkedAt && !has("identity verified")) {
+    out.push(stamp(kase.id, "identity", "identity_verified", "Identity verified", "The identity check matched the documents.", input.identity.checkedAt, input.actorName));
+  }
+  if (input.identity?.status === "failed" && input.identity.checkedAt && !has("failed")) {
+    out.push(stamp(kase.id, "kyc", "identity_verified", "Identity check failed", "The identity check did not match.", input.identity.checkedAt, input.actorName));
+  }
+  if (input.payment?.status === "succeeded" && !has("payment")) {
+    out.push(stamp(kase.id, "payment", "payment_received", "Payment received", "The assessment fee was paid.", input.payment.createdAt, input.actorName));
+  }
+  if (kase.assignedAnalystId && !has("assign")) {
+    out.push(stamp(kase.id, "assign", kase.status, "Analyst assigned", "A reviewer assigned this case to an analyst.", kase.updatedAt, "Reviewer"));
+  }
+  const inReview = ["under_review", "quality_check", "finalized", "ready_to_download", "info_requested", "escalated", "rejected"].includes(kase.status);
+  if (inReview && !has("review") && !has("quality") && !has("declined") && !has("escalat")) {
+    out.push(stamp(kase.id, "review", "under_review", "Under review", "The case entered review.", kase.submittedAt ?? kase.updatedAt, "NOAHFI"));
+  }
+  return out.sort((a, b) => a.at.localeCompare(b.at));
+}
+
 export async function getWorkspace(caseId: string) {
   const seed = await api<{
     case: Case | null;
@@ -150,24 +257,37 @@ export async function getWorkspace(caseId: string) {
     source: SourceSummary | null;
     ledger: LedgerEntry[];
     payment: Payment | null;
+    applicant: User | null;
+    profile: Profile | null;
+    qa: QaReview | null;
   }>(`/api/cases/${caseId}/workspace`);
   const caseItem = seed.case ? (mergeById([seed.case], "cases").find((item) => item.id === seed.case!.id) ?? seed.case) : (await getCase(caseId).catch(() => null));
   const resolvedId = caseItem?.id ?? caseId;
+  const documents = mergeById(seed.documents, "documents").filter((item) => item.caseId === resolvedId);
+  const identity = mergeById(seed.identity ? [seed.identity] : [], "identity").find((item) => item.caseId === resolvedId) ?? null;
+  const applicant = mergeById(seed.applicant ? [seed.applicant] : [], "users").find((item) => item.id === caseItem?.userId) ?? null;
+  const profile = mergeById(seed.profile ? [seed.profile] : [], "profiles").find((item) => item.userId === caseItem?.userId) ?? null;
+  const flags = mergeById(seed.redFlags, "redFlags").filter((item) => item.caseId === resolvedId);
+  const payment = seed.payment ? (mergeById([seed.payment], "payments").find((item) => item.caseId === resolvedId) ?? null) : mergeById<Payment>([], "payments").find((item) => item.caseId === resolvedId) ?? null;
+  const events = mergeById(seed.timeline, "timeline").filter((item) => item.caseId === resolvedId);
   return {
     case: caseItem,
-    documents: mergeById(seed.documents, "documents").filter((item) => item.caseId === resolvedId),
-    identity: mergeById(seed.identity ? [seed.identity] : [], "identity").find((item) => item.caseId === resolvedId) ?? null,
+    documents,
+    identity,
     notes: mergeById(seed.notes, "notes").filter((item) => item.caseId === resolvedId),
-    tasks: mergeById(seed.tasks, "tasks").filter((item) => item.caseId === resolvedId),
-    redFlags: mergeById(seed.redFlags, "redFlags").filter((item) => item.caseId === resolvedId),
-    timeline: mergeById(seed.timeline, "timeline").filter((item) => item.caseId === resolvedId),
-    rating: mergeById(seed.rating ? [seed.rating] : [], "ratings").find((item) => item.caseId === resolvedId) ?? null,
-    report: mergeById(seed.report ? [seed.report] : [], "reports").find((item) => item.caseId === resolvedId) ?? null,
-    feedback: mergeById(seed.feedback ? [seed.feedback] : [], "feedback").find((item) => item.caseId === resolvedId) ?? null,
+    tasks: ensureChecklist(resolvedId, mergeById(seed.tasks, "tasks").filter((item) => item.caseId === resolvedId)),
+    redFlags: withAutomaticFlags({ caseId: resolvedId, flags, identity, documents, applicant, profile }),
+    timeline: caseItem ? withChronicle({ kase: caseItem, events, documents, identity, payment, actorName: applicant?.name ?? "Customer" }) : events,
+    rating: latestForCase(mergeById(seed.rating ? [seed.rating] : [], "ratings"), resolvedId),
+    report: latestForCase(mergeById(seed.report ? [seed.report] : [], "reports"), resolvedId),
+    feedback: latestForCase(mergeById(seed.feedback ? [seed.feedback] : [], "feedback"), resolvedId),
+    qa: mergeById(seed.qa ? [seed.qa] : [], "qa").find((item) => item.caseId === resolvedId) ?? null,
+    applicant,
+    profile,
     consents: mergeById(seed.consents, "consents").filter((item) => item.caseId === resolvedId),
     source: seed.source,
     ledger: mergeById(seed.ledger, "ledger").filter((item) => item.caseId === resolvedId),
-    payment: seed.payment ? (mergeById([seed.payment], "payments").find((item) => item.caseId === resolvedId) ?? null) : mergeById<Payment>([], "payments").find((item) => item.caseId === resolvedId) ?? null,
+    payment,
   };
 }
 
@@ -175,6 +295,16 @@ export async function saveTask(caseId: string, task: Task): Promise<Task> {
   const saved = await api<Task>(`/api/cases/${caseId}/tasks`, { method: "POST", body: JSON.stringify(task) });
   upsert("tasks", saved);
   return saved;
+}
+
+export async function flagCase(caseId: string, title: string, detail: string, severity: RedFlag["severity"] = "warning"): Promise<RedFlag> {
+  const data = await api<{ flag: RedFlag; timeline?: TimelineEvent }>(`/api/cases/${caseId}/flags`, {
+    method: "POST",
+    body: JSON.stringify({ title, detail, severity }),
+  });
+  upsert("redFlags", data.flag);
+  if (data.timeline) upsert("timeline", data.timeline);
+  return data.flag;
 }
 
 export async function getRating(caseId: string): Promise<RatingAssessment | null> {
@@ -245,7 +375,7 @@ export async function sendFeedback(caseId: string, summary: string, visibleToPar
 
 export async function getReport(caseId: string): Promise<Report | null> {
   const seed = await api<Report | null>(`/api/cases/${caseId}/report`);
-  return mergeById(seed ? [seed] : [], "reports").find((item) => item.caseId === caseId) ?? null;
+  return latestForCase(mergeById(seed ? [seed] : [], "reports"), caseId);
 }
 
 export async function shareCase(caseId: string, grants: { partnerId: string; scope: ConsentGrant["scope"]; granted: boolean; expiresAt: string | null }[], actorId: string): Promise<ConsentGrant[]> {

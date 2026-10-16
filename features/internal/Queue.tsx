@@ -10,17 +10,21 @@ import { SlaBadge } from "@/components/ui/SlaBadge";
 import { usePolling } from "@/lib/hooks/usePolling";
 import { useSession } from "@/lib/hooks/useSession";
 import { useDemoFlags } from "@/lib/hooks/useDemoControls";
+import { pushToast } from "@/lib/hooks/toast-bus";
 import { getQueue, saveQueueView } from "@/lib/services/internalService";
-import { assignCase } from "@/lib/services/casesService";
-import type { SavedView } from "@/lib/types";
+import { jumpCase } from "@/lib/services/casesService";
+import type { CaseStatus, SavedView } from "@/lib/types";
 import { slaState } from "@/lib/utils/sla";
-import { can } from "@/lib/utils/status";
+import { MAIN_TIMELINE, STATUS_LABEL } from "@/lib/utils/status";
 import { nowIso } from "@/lib/utils/id";
 
 export function Queue() {
   const { session } = useSession();
   const { now } = useDemoFlags();
   const query = usePolling("queue", getQueue, { intervalMs: 7000 });
+  const [jumpId, setJumpId] = useState("");
+  const [jumpStatus, setJumpStatus] = useState<CaseStatus>("ready_to_download");
+  const [jumping, setJumping] = useState(false);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("");
   const [country, setCountry] = useState("");
@@ -29,9 +33,6 @@ export function Queue() {
   const [partnerId, setPartnerId] = useState("");
   const [analystId, setAnalystId] = useState("");
   const [page, setPage] = useState(1);
-  const [picked, setPicked] = useState<string[]>([]);
-  const [assignTo, setAssignTo] = useState("");
-  const readOnly = session?.user.role === "compliance";
 
   const filtered = useMemo(() => {
     const data = query.data;
@@ -68,6 +69,36 @@ export function Queue() {
         <h1 className="text-2xl font-bold tracking-tight">Case queue</h1>
         <p className="text-xs text-ink-soft">{query.isValidating ? "Refreshing…" : "Auto-refresh on"}</p>
       </div>
+      {session?.user.role === "admin" && (
+        <section className="rounded-2xl bg-white p-4">
+          <h2 className="font-semibold">Move a case</h2>
+          <p className="mt-1 text-sm text-ink-soft">Pick a case and the stage it should land on. This skips analyst rating, quality review, and feedback. A report from here uses a placeholder score of 700.</p>
+          <div className="mt-3 flex flex-wrap items-end gap-2">
+            <Select aria-label="Case to move" value={jumpId} onChange={(event) => setJumpId(event.target.value)}>
+              <option value="">Choose a case</option>
+              {query.data.cases.map((item) => {
+                const person = query.data?.users.find((user) => user.id === item.userId);
+                return <option key={item.id} value={item.id}>{item.reference} · {person?.name ?? "Unknown"} · {STATUS_LABEL[item.status]}</option>;
+              })}
+            </Select>
+            <Select aria-label="Stage" value={jumpStatus} onChange={(event) => setJumpStatus(event.target.value as CaseStatus)}>
+              {MAIN_TIMELINE.map((stage) => <option key={stage.status} value={stage.status}>{stage.label}</option>)}
+            </Select>
+            <Button type="button" loading={jumping} disabled={!jumpId} onClick={() => void (async () => {
+              setJumping(true);
+              try {
+                const next = await jumpCase(jumpId, jumpStatus);
+                pushToast({ title: `${next.reference} is now ${STATUS_LABEL[next.status]}` });
+                await query.mutate();
+              } catch (error) {
+                pushToast({ title: error instanceof Error ? error.message : "Could not move the case", tone: "error" });
+              } finally {
+                setJumping(false);
+              }
+            })()}>Move</Button>
+          </div>
+        </section>
+      )}
       <div className="grid gap-2 md:grid-cols-3 lg:grid-cols-6">
         <Input aria-label="Search" placeholder="Name, case, bank, country" value={q} onChange={(event) => { setQ(event.target.value); setPage(1); }} />
         <Select aria-label="Status" value={status} onChange={(event) => setStatus(event.target.value)}><option value="">All statuses</option><option value="under_review">Under review</option><option value="quality_check">Quality check</option><option value="info_requested">Info requested</option><option value="ready_to_download">Ready</option><option value="escalated">Escalated</option></Select>
@@ -80,27 +111,15 @@ export function Queue() {
         <Select aria-label="Analyst filter" value={analystId} onChange={(event) => setAnalystId(event.target.value)}><option value="">Any analyst</option>{query.data.analysts.map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}</Select>
         <Button type="button" variant="secondary" onClick={saveView}>Save view</Button>
         <Button type="button" variant="ghost" onClick={() => { setQ(""); setStatus(""); setCountry(""); setRisk(""); setSla(""); setPartnerId(""); setAnalystId(""); }}>Clear</Button>
-        {session && can(session.user.role, "assign") && (
-          <>
-            <Select aria-label="Bulk assign" value={assignTo} onChange={(event) => setAssignTo(event.target.value)}><option value="">Assign selected</option>{query.data.analysts.map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}</Select>
-            <Button type="button" disabled={!assignTo || !picked.length || readOnly} onClick={() => void (async () => {
-              if (!session) return;
-              for (const id of picked) await assignCase(id, assignTo, session.user);
-              setPicked([]);
-              await query.mutate();
-            })()}>Apply</Button>
-          </>
-        )}
       </div>
       <Table
         empty="No cases match these filters."
-        columns={[{ key: "pick", label: "" }, { key: "ref", label: "Case", sortable: true }, { key: "who", label: "Customer" }, { key: "country", label: "Country" }, { key: "status", label: "Status" }, { key: "risk", label: "Risk" }, { key: "sla", label: "SLA" }, { key: "analyst", label: "Analyst" }]}
+        columns={[{ key: "ref", label: "Case", sortable: true }, { key: "who", label: "Customer" }, { key: "country", label: "Country" }, { key: "status", label: "Status" }, { key: "risk", label: "Risk" }, { key: "sla", label: "SLA" }, { key: "analyst", label: "Analyst" }]}
         rows={slice.map((item) => {
           const user = query.data!.users.find((person) => person.id === item.userId);
           const analyst = query.data!.users.find((person) => person.id === item.assignedAnalystId);
           return {
             id: item.id,
-            pick: <input type="checkbox" aria-label={`Select ${item.reference}`} checked={picked.includes(item.id)} onChange={(event) => setPicked((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))} />,
             ref: <Link className="font-semibold underline" href={`/internal/cases/${item.id}`}>{item.reference}</Link>,
             refSort: item.reference,
             who: user?.name ?? "Unknown",

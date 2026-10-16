@@ -23,7 +23,6 @@ const cols = [
     links: [
       { label: "Help center", href: "#" },
       { label: "Contact us", href: "#" },
-      { label: "Staff login", href: "/internal/login" },
     ],
   },
 ];

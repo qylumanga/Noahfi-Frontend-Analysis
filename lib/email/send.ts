@@ -12,11 +12,11 @@ export async function sendEmail(draft: EmailDraft): Promise<EmailMessage> {
     template: draft.template,
     subject: EMAIL_SUBJECTS[draft.template],
     props: draft.props,
-    href: draft.props.href ?? "/dev/outbox",
+    href: draft.props.href ?? "/outbox",
     createdAt: at,
     updatedAt: at,
   };
   upsert("emails", message);
-  pushToast({ title: `Email sent: ${message.subject}`, href: "/dev/outbox", tone: "success" });
+  pushToast({ title: `Email sent: ${message.subject}`, href: "/outbox", tone: "success" });
   return message;
 }

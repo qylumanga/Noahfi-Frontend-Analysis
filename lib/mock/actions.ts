@@ -10,6 +10,7 @@ import type {
   Notification,
   RatingAssessment,
   RatingFactor,
+  RedFlag,
   Session,
   Task,
   TimelineEvent,
@@ -37,6 +38,7 @@ import { cuid, nextReference, nowIso } from "@/lib/utils/id";
 import { bandFor, luhnOk } from "@/lib/utils/format";
 import { quoteFor } from "@/lib/utils/money";
 import { nextStatus } from "@/lib/utils/status";
+import { MAIN_TIMELINE, STATUS_LABEL } from "@/lib/utils/status";
 import { blockMaterial } from "@/lib/trust/sha256";
 import { createHash } from "node:crypto";
 import { MockError, type MockCtx } from "./http";
@@ -60,6 +62,7 @@ import {
   seedPartners,
   seedPayments,
   seedProfiles,
+  seedQa,
   seedRatings,
   seedRedFlags,
   seedReports,
@@ -356,8 +359,76 @@ export async function getCase(ctx: MockCtx) {
 }
 
 export async function patchCase(ctx: MockCtx) {
-  const body = (ctx.body ?? {}) as { base?: Case; patch?: Partial<Case>; advance?: boolean };
+  const body = (ctx.body ?? {}) as { base?: Case; patch?: Partial<Case>; advance?: boolean; jumpTo?: CaseStatus };
   const current = resolveCase(ctx.params.caseId, body.base);
+  if (body.jumpTo) {
+    const actor = requireUser(ctx);
+    if (actor.role !== "admin") throw new MockError(403, "forbidden", "Only an admin can move a case to a chosen stage.");
+    if (!MAIN_TIMELINE.some((stage) => stage.status === body.jumpTo)) throw new MockError(400, "invalid", "Choose a stage on the case timeline.");
+    const status = body.jumpTo;
+    const at = nowIso();
+    const next = touchCase(current, { status, submittedAt: current.submittedAt ?? (status === "draft" ? null : at) });
+    const needsScore = ["quality_check", "finalized", "ready_to_download"].includes(status);
+    const summary = "Placeholder assessment. An admin moved this case forward, so this is not an analyst score, a quality review, or customer feedback.";
+    const scored = needsScore ? scoreFactors({ identityConfidence: 3, documentValidity: 3, bankingHistory: 3, creditHistory: 3, fraudRisk: 1, consistency: 3 }) : null;
+    const rating = scored ? {
+      id: `cl_rate_placeholder_${next.id}`,
+      caseId: next.id,
+      identityConfidence: 3,
+      documentValidity: 3,
+      bankingHistory: 3,
+      creditHistory: 3,
+      fraudRisk: 1,
+      consistency: 3,
+      identityNote: "Placeholder.",
+      documentNote: "Placeholder.",
+      bankingNote: "Placeholder.",
+      creditNote: "Placeholder.",
+      fraudNote: "Placeholder.",
+      consistencyNote: "Placeholder.",
+      computedScore: 700,
+      finalScore: 700,
+      confidence: 70,
+      band: bandFor(700).label,
+      recommendation: "approve" as const,
+      rationale: summary,
+      qaStatus: "approved" as const,
+      factors: scored.factors,
+      createdAt: at,
+      updatedAt: at,
+    } : undefined;
+    const report = status === "finalized" || status === "ready_to_download" ? {
+      id: `cl_rpt_placeholder_${next.id}`,
+      caseId: next.id,
+      reference: next.reference,
+      score: 700,
+      band: bandFor(700).label,
+      confidence: 70,
+      summary,
+      feedback: summary,
+      visibleToPartner: false,
+      factors: scored?.factors ?? [],
+      createdAt: at,
+      updatedAt: at,
+    } : undefined;
+    const feedback = report ? {
+      id: `cl_fb_placeholder_${next.id}`,
+      caseId: next.id,
+      authorId: actor.id,
+      summary,
+      visibleToPartner: false,
+      sentAt: status === "ready_to_download" ? at : null,
+      createdAt: at,
+      updatedAt: at,
+    } : undefined;
+    return {
+      case: next,
+      rating,
+      report,
+      feedback,
+      timeline: timeline(next.id, status, "Stage set by admin", needsScore ? summary : `Moved to ${STATUS_LABEL[status]}.`, actor.name),
+    };
+  }
   if (body.advance) {
     const status = nextStatus(current.status);
     if (!status) throw new MockError(400, "terminal", "This case has no further stage.");
@@ -366,6 +437,12 @@ export async function patchCase(ctx: MockCtx) {
   }
   const patch = body.patch ?? {};
   const next = touchCase(current, patch);
+  if (patch.status && patch.status !== current.status) {
+    return {
+      case: next,
+      timeline: timeline(next.id, next.status, STATUS_LABEL[next.status], `Status is now ${STATUS_LABEL[next.status]}.`, patch.status === "account_verified" ? "Customer" : "NOAHFI"),
+    };
+  }
   return { case: next };
 }
 
@@ -413,10 +490,12 @@ export async function createDocument(ctx: MockCtx) {
     caseResult = touchCase(body.baseCase, { status: "documents_uploaded" });
   }
   const owner = seedUsers.find((user) => user.id === (body.baseCase?.userId ?? input.uploadedById));
+  const uploader = seedUsers.find((user) => user.id === input.uploadedById);
   return {
     document,
     ledgerEntry,
     case: caseResult,
+    timeline: timeline(document.caseId, caseResult?.status ?? body.baseCase?.status ?? "documents_uploaded", "Documents uploaded", `${document.fileName} uploaded.`, uploader?.name ?? owner?.name ?? "Customer"),
     email: owner ? draft(owner.email, "documents_received", { name: owner.name, fileName: document.fileName, href: `/cases/${document.caseId}` }) : undefined,
     notification: notify(body.baseCase?.userId ?? input.uploadedById, document.caseId, "documents_received", "Documents received", `${document.fileName} is on file.`, `/cases/${document.caseId}`),
   };
@@ -438,7 +517,17 @@ export async function verifyIdentity(ctx: MockCtx) {
     updatedAt: at,
   };
   const caseResult = body.base && status === "matched" ? touchCase(body.base, { status: "identity_verified" }) : undefined;
-  return { identity, case: caseResult };
+  const owner = seedUsers.find((user) => user.id === body.base?.userId);
+  const identityTimeline = status === "pending"
+    ? undefined
+    : timeline(
+      ctx.params.caseId,
+      caseResult?.status ?? body.base?.status ?? "identity_verified",
+      status === "matched" ? "Identity verified" : "Identity check failed",
+      status === "matched" ? "The identity check matched the documents." : "The identity check did not match.",
+      owner?.name ?? "Customer",
+    );
+  return { identity, case: caseResult, timeline: identityTimeline };
 }
 
 export async function submitCase(ctx: MockCtx) {
@@ -558,7 +647,14 @@ export async function putRating(ctx: MockCtx) {
     updatedAt: at,
   };
   const caseResult = body.baseCase && body.qaStatus === "submitted" ? touchCase(body.baseCase, { status: "quality_check" }) : undefined;
-  return { rating, case: caseResult };
+  const actor = sessionFrom(ctx.req);
+  return {
+    rating,
+    case: caseResult,
+    timeline: body.qaStatus === "submitted"
+      ? timeline(rating.caseId, caseResult?.status ?? "quality_check", "Rating submitted", rating.rationale || "Analyst submitted the rating for quality review.", actor?.user.name ?? "Analyst")
+      : undefined,
+  };
 }
 
 export async function qaCase(ctx: MockCtx) {
@@ -867,8 +963,10 @@ export async function listProfiles() {
 
 export async function bundle(ctx: MockCtx) {
   const id = ctx.params.caseId;
+  const kase = seedCases.find((item) => item.id === id || item.reference === id) ?? null;
+  const owner = kase ? seedUsers.find((user) => user.id === kase.userId) : undefined;
   return {
-    case: seedCases.find((item) => item.id === id || item.reference === id) ?? null,
+    case: kase,
     documents: seedDocuments.filter((item) => item.caseId === id),
     identity: seedIdentity.find((item) => item.caseId === id) ?? null,
     notes: seedNotes.filter((item) => item.caseId === id),
@@ -882,6 +980,9 @@ export async function bundle(ctx: MockCtx) {
     source: seedSources.find((item) => item.caseId === id) ?? null,
     ledger: seedLedger.filter((item) => item.caseId === id),
     payment: seedPayments.find((item) => item.caseId === id) ?? null,
+    applicant: owner ? publicUser(owner) : null,
+    profile: owner ? seedProfiles.find((item) => item.userId === owner.id) ?? null : null,
+    qa: seedQa.find((item) => item.caseId === id) ?? null,
   };
 }
 
@@ -899,6 +1000,31 @@ export async function listRedFlags() {
 
 export async function listSources() {
   return seedSources;
+}
+
+export async function createFlag(ctx: MockCtx) {
+  const actor = requireUser(ctx);
+  if (!["analyst", "reviewer", "admin", "compliance"].includes(actor.role)) {
+    throw new MockError(403, "forbidden", "Only internal staff can flag a case.");
+  }
+  const body = (ctx.body ?? {}) as { title?: string; detail?: string; severity?: string };
+  const title = body.title?.trim() ?? "";
+  if (title.length < 3) throw new MockError(400, "invalid", "Give the flag a short title.");
+  const at = nowIso();
+  const flag: RedFlag = {
+    id: cuid("flg"),
+    caseId: ctx.params.caseId,
+    severity: body.severity === "critical" ? "critical" : "warning",
+    title,
+    detail: body.detail?.trim() || "Flagged by staff.",
+    resolved: false,
+    createdAt: at,
+    updatedAt: at,
+  };
+  return {
+    flag,
+    timeline: timeline(ctx.params.caseId, "under_review", "Alert flagged", title, actor.name),
+  };
 }
 
 export async function saveTask(ctx: MockCtx) {

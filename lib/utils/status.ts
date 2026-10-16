@@ -70,9 +70,9 @@ export function can(role: Role, capability: "queue" | "rate" | "qa" | "assign" |
   const matrix: Record<typeof capability, Role[]> = {
     queue: ["analyst", "reviewer", "admin", "compliance"],
     rate: ["analyst", "reviewer", "admin", "compliance"],
-    qa: ["reviewer", "admin"],
-    assign: ["reviewer", "admin"],
-    feedback: ["reviewer", "admin"],
+    qa: ["reviewer"],
+    assign: ["reviewer"],
+    feedback: ["reviewer"],
     admin: ["admin"],
     audit: ["admin", "compliance"],
   };

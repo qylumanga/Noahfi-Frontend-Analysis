@@ -8,3 +8,4 @@ next-env.d.ts
 .pnpm-store
 *.local
 NOAHFI_CURSOR_PROMPT.md
+DEMO_ACCOUNTS.txt

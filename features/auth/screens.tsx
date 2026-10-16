@@ -12,9 +12,6 @@ import { forgotPassword, login, resendOtp, signup, verifyOtp } from "@/lib/servi
 import { forgotSchema, loginSchema, signupSchema } from "@/lib/types/schemas";
 import { portalFor } from "@/lib/utils/status";
 import type { Role } from "@/lib/types";
-import { DemoAccountPanel } from "./DemoAccountPanel";
-import { CUSTOMER_DEMOS, INTERNAL_DEMOS, PARTNER_DEMOS, type DemoLogin } from "./demoAccounts";
-
 function errorsOf(error: unknown): Record<string, string> {
   if (error instanceof ApiError && error.fieldErrors) return error.fieldErrors;
   return {};
@@ -23,7 +20,6 @@ function errorsOf(error: unknown): Record<string, string> {
 export function LoginScreen({ portal }: { portal: "customer" | "partner" | "internal" }) {
   const router = useRouter();
   const params = useSearchParams();
-  const demos = portal === "partner" ? PARTNER_DEMOS : portal === "internal" ? INTERNAL_DEMOS : CUSTOMER_DEMOS;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
@@ -31,12 +27,6 @@ export function LoginScreen({ portal }: { portal: "customer" | "partner" | "inte
   const [error, setError] = useState("");
   const [fields, setFields] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
-
-  function fill(account: DemoLogin) {
-    setEmail(account.email);
-    setPassword(account.password);
-    setOtp(false);
-  }
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -74,13 +64,13 @@ export function LoginScreen({ portal }: { portal: "customer" | "partner" | "inte
 
   return (
     <AuthShell title={copy[0]} subtitle={copy[1]} altHref={copy[2]} altText={copy[3]}>
-      {params.get("reset") === "1" && <Alert tone="success" title="Reset link opened">Use your password to sign in. Demo accounts use demo1234.</Alert>}
+      {params.get("reset") === "1" && <Alert tone="success" title="Reset link opened">Use your password to sign in.</Alert>}
       <form className="mt-4 space-y-4" onSubmit={(event) => void submit(event)}>
         <FormField id="email" label="Email" error={fields.email}>
           <Input id="email" type="email" autoComplete="email" value={email} aria-invalid={!!fields.email} onChange={(event) => setEmail(event.target.value)} />
         </FormField>
         {otp ? (
-          <FormField id="code" label="One-time code" hint="Demo code is 123456. It is also in the email outbox." error={fields.code}>
+          <FormField id="code" label="One-time code" hint="The code is in the message at /outbox." error={fields.code}>
             <Input id="code" inputMode="numeric" autoComplete="one-time-code" value={code} onChange={(event) => setCode(event.target.value)} />
           </FormField>
         ) : (
@@ -95,7 +85,6 @@ export function LoginScreen({ portal }: { portal: "customer" | "partner" | "inte
         <button type="button" className="font-semibold underline" onClick={() => setOtp((value) => !value)}>{otp ? "Use a password instead" : "Use a one-time code instead"}</button>
         <a className="font-semibold underline" href="/forgot-password">Forgot password</a>
       </div>
-      <DemoAccountPanel accounts={demos} onFill={fill} />
     </AuthShell>
   );
 }
@@ -208,7 +197,7 @@ export function VerifyEmailScreen() {
         </Alert>
       ) : (
         <div>
-          <p className="mb-3 text-sm text-ink-soft">Demo hint: the code is 123456. You can also open it from Demo controls → email outbox.</p>
+          <p className="mb-3 text-sm text-ink-soft">Open <a className="font-semibold underline" href="/outbox" target="_blank" rel="noreferrer">/outbox</a> in another tab and use the code in the message.</p>
           <div className="flex gap-2" onPaste={(event) => {
             const text = event.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
             if (!text) return;
@@ -270,8 +259,8 @@ export function ForgotScreen() {
   }
 
   return (
-    <AuthShell title="Reset your password" subtitle="We will put a reset message in the demo outbox." altHref="/login" altText="Back to log in">
-      {sent ? <Alert tone="success" title="Check the outbox">If an account exists for that email, a message is waiting in Demo controls. Demo passwords stay demo1234.</Alert> : (
+    <AuthShell title="Reset your password" subtitle="We will put a reset message in the outbox." altHref="/login" altText="Back to log in">
+      {sent ? <Alert tone="success" title="Check the outbox">If an account exists for that email, the message is at <a className="font-semibold underline" href="/outbox" target="_blank" rel="noreferrer">/outbox</a>.</Alert> : (
         <form className="space-y-4" onSubmit={(event) => void submit(event)}>
           <FormField id="email" label="Email" error={fields.email}>
             <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />

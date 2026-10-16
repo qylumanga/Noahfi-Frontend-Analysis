@@ -119,7 +119,7 @@ export function FeedbackComposer({ caseId }: { caseId: string }) {
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState<RatingAssessment | undefined>();
   useEffect(() => { void getWorkspace(caseId).then((data) => { if (data.feedback?.summary) setSummary(data.feedback.summary); if (data.rating) setRating(data.rating); }); }, [caseId]);
-  if (!session || !can(session.user.role, "feedback")) return <Alert tone="warning" title="Reviewers only">Feedback is sent by a reviewer or an admin.</Alert>;
+  if (!session || !can(session.user.role, "feedback")) return <Alert tone="warning" title="Reviewers only">Feedback is sent by a reviewer.</Alert>;
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold tracking-tight">Customer feedback</h1>

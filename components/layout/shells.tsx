@@ -3,8 +3,7 @@
 import type { ReactNode } from "react";
 import type { Role } from "@/lib/types";
 import { useSession } from "@/lib/hooks/useSession";
-import { can } from "@/lib/utils/status";
-import { AppChrome } from "./AppChrome";
+import { AppChrome, type NavItem } from "./AppChrome";
 import { AuthGuard } from "./AuthGuard";
 
 export function CustomerShell({ children }: { children: ReactNode }) {
@@ -35,12 +34,32 @@ export function PrintShell({ children }: { children: ReactNode }) {
   return <AuthGuard allow={allow} loginPath="/login">{children}</AuthGuard>;
 }
 
+function internalNav(role: Role | undefined): NavItem[] {
+  const queue: NavItem = { href: "/internal", label: "Queue" };
+  if (role === "analyst") return [queue, { href: "/internal/analyze", label: "Analyze", nested: true }];
+  if (role === "reviewer") {
+    return [
+      queue,
+      { href: "/internal/review", label: "Review" },
+      { href: "/internal/qa", label: "QA", nested: true },
+      { href: "/internal/feedback", label: "Feedback", nested: true },
+    ];
+  }
+  if (role === "compliance") return [queue, { href: "/internal/audit", label: "Audit logs" }];
+  if (role === "admin") {
+    return [
+      queue,
+      { href: "/internal/roles", label: "Roles" },
+      { href: "/internal/performance", label: "Performance" },
+      { href: "/internal/audit", label: "Audit log" },
+    ];
+  }
+  return [queue];
+}
+
 export function InternalShell({ children }: { children: ReactNode }) {
   const { session } = useSession();
-  const role = session?.user.role;
-  const items = [{ href: "/internal", label: "Queue" }];
-  if (role && can(role, "admin")) items.push({ href: "/internal/admin", label: "Admin" });
-  if (role === "compliance") items.push({ href: "/internal/admin", label: "Audit logs" });
+  const items = internalNav(session?.user.role);
   const allow: Role[] = ["analyst", "reviewer", "admin", "compliance"];
   return (
     <AuthGuard allow={allow} loginPath="/internal/login">

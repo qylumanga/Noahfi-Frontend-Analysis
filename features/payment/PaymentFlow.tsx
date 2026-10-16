@@ -122,7 +122,7 @@ export function Confirmation() {
       <div className="mt-6 rounded-2xl bg-glacier p-4 text-sm">
         <p className="font-semibold">Invoice {number || "pending"}</p>
         <p>Total paid {total || "USD 100 plus tax"}.</p>
-        <p className="mt-2">A receipt was sent to the demo email outbox.</p>
+        <p className="mt-2">A receipt was sent. Open <a className="font-semibold underline" href="/outbox" target="_blank" rel="noreferrer">/outbox</a> in another tab to read it.</p>
       </div>
       <div className="no-print mt-6 flex flex-wrap gap-3">
         <button type="button" className="btn-secondary" onClick={() => window.print()}>Download PDF</button>
