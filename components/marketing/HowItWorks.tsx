@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const steps = [
   {
     title: "Create your account",
@@ -29,14 +31,22 @@ const steps = [
 export function HowItWorks() {
   return (
     <section id="how-it-works" className="bg-white py-24">
-      <div className="container-page grid gap-14 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="lg:sticky lg:top-28 lg:self-start">
+      <div className="mx-auto grid w-full gap-14 px-3 sm:px-4 lg:grid-cols-[0.9fr_1.1fr] lg:px-5">
+        <div>
           <h2 className="text-4xl font-bold leading-tight tracking-tightest sm:text-5xl">
             Five steps from documents to a bank-ready profile
           </h2>
           <p className="mt-5 max-w-md text-lg text-ink-soft">
             You do three of them. We handle the review, and you can follow your case the whole way.
           </p>
+          <Image
+            src="/Canadian Credit Scores by Province 2.png"
+            alt="Map of average Canadian credit scores by province"
+            width={1119}
+            height={1405}
+            quality={95}
+            className="mt-8 h-auto w-full rounded-2xl"
+          />
         </div>
 
         <ol className="relative">

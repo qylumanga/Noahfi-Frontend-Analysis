@@ -58,7 +58,7 @@ export function ScoreTranslator() {
   return (
     <section
       aria-labelledby="translator-title"
-      className="rise rounded-3xl border border-ink/10 bg-white p-6 shadow-panel sm:p-8"
+      className="rounded-3xl border border-ink/10 bg-white p-6 shadow-panel sm:p-8"
       style={{ animationDelay: "0.25s" }}
     >
       <div className="flex items-start justify-between gap-4">

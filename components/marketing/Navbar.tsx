@@ -30,10 +30,10 @@ export function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-200 ${
-        scrolled || open ? "border-b border-ink/10 bg-glacier/85 backdrop-blur-md" : "border-b border-transparent"
+        scrolled || open ? "border-b border-ink/10 bg-white/90 backdrop-blur-md" : "border-b border-transparent"
       }`}
     >
-      <div className="container-page flex h-16 items-center justify-between">
+      <div className="container-page flex h-20 items-center justify-between">
         <Logo />
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">

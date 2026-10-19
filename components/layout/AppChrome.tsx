@@ -30,7 +30,7 @@ export function AppChrome({ items, dense, children }: { items: NavItem[]; dense?
   return (
     <div className={cn("min-h-screen md:grid md:grid-cols-[220px_1fr]", dense && "text-sm")}>
       <aside className="no-print hidden border-r border-ink/10 bg-white md:block">
-        <div className="px-4 py-5"><Logo /></div>
+        <div className="px-4 py-5"><Logo compact /></div>
         <nav className="flex flex-col gap-1 px-3" aria-label="Workspace">
           {items.map((item) => (
             <Link key={item.href} href={item.href} className={cn("rounded-xl px-3 py-2 font-semibold", item.nested && "ml-3 text-[13px]", isCurrent(pathname, item.href) ? "bg-ink text-white" : "text-ink-soft hover:bg-glacier")}>{item.label}</Link>
@@ -40,7 +40,7 @@ export function AppChrome({ items, dense, children }: { items: NavItem[]; dense?
       <div>
         <header className="no-print sticky top-0 z-40 border-b border-ink/10 bg-glacier/90 backdrop-blur">
           <div className="flex items-center justify-between gap-3 px-4 py-3">
-            <div className="md:hidden"><Logo /></div>
+            <div className="md:hidden"><Logo compact /></div>
             <p className="hidden text-sm text-ink-soft md:block">Result within 48 hours</p>
             <div className="ml-auto flex items-center gap-2">
               <div className="relative">

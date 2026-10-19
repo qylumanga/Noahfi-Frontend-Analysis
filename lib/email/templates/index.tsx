@@ -6,7 +6,7 @@ export function EmailPreview({ message }: { message: EmailMessage }) {
   return (
     <article className="overflow-hidden rounded-2xl border border-ink/10 bg-white">
       <div className="border-b border-ink/10 bg-glacier px-5 py-4">
-        <Logo />
+        <Logo compact />
         <p className="mt-3 text-xs text-ink-soft">To {message.to}</p>
         <h2 className="text-lg font-semibold">{message.subject}</h2>
       </div>
