@@ -33,7 +33,7 @@ export function AppChrome({ items, dense, children }: { items: NavItem[]; dense?
         <div className="px-4 py-5"><Logo compact /></div>
         <nav className="flex flex-col gap-1 px-3" aria-label="Workspace">
           {items.map((item) => (
-            <Link key={item.href} href={item.href} className={cn("rounded-xl px-3 py-2 font-semibold", item.nested && "ml-3 text-[13px]", isCurrent(pathname, item.href) ? "bg-ink text-white" : "text-ink-soft hover:bg-glacier")}>{item.label}</Link>
+            <Link key={item.href} href={item.href} className={cn("rounded-xl px-3 py-2 font-semibold", isCurrent(pathname, item.href) ? "bg-ink text-white" : "text-ink-soft hover:bg-glacier")}>{item.label}</Link>
           ))}
         </nav>
       </aside>

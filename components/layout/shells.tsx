@@ -36,13 +36,13 @@ export function PrintShell({ children }: { children: ReactNode }) {
 
 function internalNav(role: Role | undefined): NavItem[] {
   const queue: NavItem = { href: "/internal", label: "Queue" };
-  if (role === "analyst") return [queue, { href: "/internal/analyze", label: "Analyze", nested: true }];
+  if (role === "analyst") return [queue, { href: "/internal/analyze", label: "Analyze" }];
   if (role === "reviewer") {
     return [
       queue,
       { href: "/internal/review", label: "Review" },
-      { href: "/internal/qa", label: "QA", nested: true },
-      { href: "/internal/feedback", label: "Feedback", nested: true },
+      { href: "/internal/qa", label: "QA" },
+      { href: "/internal/feedback", label: "Feedback" },
     ];
   }
   if (role === "compliance") return [queue, { href: "/internal/audit", label: "Audit logs" }];

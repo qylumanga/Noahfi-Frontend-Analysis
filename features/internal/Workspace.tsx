@@ -12,6 +12,7 @@ import { ChainOfCustody } from "@/components/trust/ChainOfCustody";
 import { IntegrityBadge } from "@/components/trust/IntegrityBadge";
 import { cn } from "@/lib/utils/cn";
 import { formatWhen } from "@/lib/utils/format";
+import { slaRemainingMs } from "@/lib/utils/sla";
 import type { Feedback, QaReview, RatingAssessment, Role } from "@/lib/types";
 
 function seesFullRecord(role: Role | undefined): boolean {
@@ -150,7 +151,7 @@ export function Workspace({ caseId }: { caseId: string }) {
         </div>
         <StatusTag status={kase.status} />
       </div>
-      {kase.slaDueAt && new Date(kase.slaDueAt).getTime() - Date.now() < 8 * 3600_000 && !["ready_to_download", "rejected", "finalized"].includes(kase.status) && (
+      {kase.slaDueAt && slaRemainingMs(kase.slaDueAt, Date.now()) < 8 * 3600_000 && slaRemainingMs(kase.slaDueAt, Date.now()) > 0 && !["ready_to_download", "rejected", "finalized"].includes(kase.status) && (
         <Alert tone="warning" title="SLA risk">Less than 8 hours remain on the 48-hour promise.</Alert>
       )}
       <RecordCards role={role} rating={data.rating} qa={data.qa} feedback={data.feedback} open={seesFullRecord(role) || record === "rating" ? record : "rating"} onOpen={setRecord} />

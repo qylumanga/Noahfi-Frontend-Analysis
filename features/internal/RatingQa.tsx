@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Alert, Skeleton } from "@/components/ui/feedback";
 import { Button } from "@/components/ui/Button";
@@ -33,23 +33,40 @@ function blank(caseId: string): RatingAssessment {
 export function RatingWorkspace({ caseId }: { caseId: string }) {
   const { session } = useSession();
   const [rating, setRating] = useState<RatingAssessment | null>(null);
+  const [caseStatus, setCaseStatus] = useState("");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const holdDraft = useRef(false);
+  const repaired = useRef(false);
   const editable = session ? canEditRating(session.user.role) : false;
   useEffect(() => {
-    void getWorkspace(caseId).then((data) => setRating(data.rating ?? blank(data.case?.id ?? caseId))).catch((err: Error) => setError(err.message));
+    void getWorkspace(caseId).then((data) => {
+      setRating(data.rating ?? blank(data.case?.id ?? caseId));
+      setCaseStatus(data.case?.status ?? "");
+    }).catch((err: Error) => setError(err.message));
   }, [caseId]);
   useEffect(() => {
-    if (!rating || !editable) return;
+    if (!rating || !editable || rating.qaStatus === "submitted" || holdDraft.current) return;
     const handle = window.setTimeout(() => { void saveRating(caseId, { ...rating, qaStatus: "draft" }).catch(() => undefined); }, 700);
     return () => window.clearTimeout(handle);
   }, [rating, editable, caseId]);
+  useEffect(() => {
+    if (!rating || !editable || repaired.current || rating.qaStatus !== "submitted") return;
+    if (["quality_check", "finalized", "ready_to_download", "rejected"].includes(caseStatus)) return;
+    repaired.current = true;
+    holdDraft.current = true;
+    void saveRating(caseId, { ...rating, qaStatus: "submitted" }).then(() => {
+      setCaseStatus("quality_check");
+      setNotice("Submitted. The case is now in quality check for a reviewer.");
+    }).catch((err: Error) => setError(err.message));
+  }, [rating, caseStatus, editable, caseId]);
   if (!rating) return error ? <Alert tone="error">{error}</Alert> : <Skeleton className="h-40" />;
   const fraudPoints = 5 - Math.min(5, rating.fraudRisk);
   const avg = (rating.identityConfidence + rating.documentValidity + rating.bankingHistory + rating.creditHistory + fraudPoints + rating.consistency) / 6;
   const computed = Math.max(300, Math.min(900, Math.round(300 + (avg / 5) * 600)));
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_240px]">
-      <form className="space-y-4" onSubmit={(event) => { event.preventDefault(); void saveRating(caseId, { ...rating, qaStatus: "submitted", finalScore: rating.finalScore, computedScore: computed }).then(() => setError("")).catch((err: Error) => setError(err.message)); }}>
+      <form className="space-y-4" onSubmit={(event) => { event.preventDefault(); holdDraft.current = true; void saveRating(caseId, { ...rating, qaStatus: "submitted", finalScore: rating.finalScore, computedScore: computed }).then((saved) => { setRating(saved); setError(""); setNotice("Submitted. The case is now in quality check for a reviewer."); }).catch((err: Error) => { holdDraft.current = false; setError(err.message); }); }}>
         <h1 className="text-2xl font-bold tracking-tight">Rating workspace</h1>
         {!editable && <Alert tone="info">You can view this score. Only analysts edit it.</Alert>}
         {FIELDS.map((field) => (
@@ -72,7 +89,8 @@ export function RatingWorkspace({ caseId }: { caseId: string }) {
           ))}
         </div>
         {error && <Alert tone="error">{error}</Alert>}
-        {editable && <Button type="submit">Submit recommendation</Button>}
+        {notice && <Alert tone="success">{notice}</Alert>}
+        {editable && !(rating.qaStatus === "submitted" && ["quality_check", "finalized", "ready_to_download"].includes(caseStatus)) && <Button type="submit">Submit recommendation</Button>}
       </form>
       <aside className="rounded-3xl bg-white p-4">
         <ScoreGauge score={computed} band={bandFor(computed).label} />

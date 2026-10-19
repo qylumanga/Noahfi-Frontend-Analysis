@@ -314,9 +314,10 @@ export async function getRating(caseId: string): Promise<RatingAssessment | null
 }
 
 export async function saveRating(caseId: string, rating: Partial<RatingAssessment> & { baseCase?: Case }): Promise<RatingAssessment> {
+  const baseCase = rating.qaStatus === "submitted" ? (rating.baseCase ?? await getCase(caseId)) : rating.baseCase;
   const data = await api<{ rating: RatingAssessment; case?: Case }>(`/api/cases/${caseId}/rating`, {
     method: "PUT",
-    body: JSON.stringify(rating),
+    body: JSON.stringify({ ...rating, baseCase }),
   });
   await applyEffects(data);
   return data.rating;
